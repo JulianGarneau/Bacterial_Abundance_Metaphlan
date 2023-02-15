@@ -1,14 +1,9 @@
 # Bacterial_Abundance_Metaphlan
 Procedure for determining the bacterial abundances using Metaphlan with shotgun metagenomics reads
 
+## BACTERIAL COMMUNITY ABUNDANCE FROM WHOLE SHOTGUN METAGENOMIC SEQUENCES
 
-
-
-BIOINFORMATIC WORKSHOP 1
-
-BACTERIAL COMMUNITY ABUNDANCE FROM WHOLE SHOTGUN METAGENOMIC SEQUENCES
-
-Table of contents
+### Table of contents
 
 1.	Reception or download of read files
 2.	Checking the integrity of the read files
@@ -18,28 +13,41 @@ Table of contents
 6.	Subsampling reads (optional, case dependant) 
 7.	Getting the bacterial abundances
 
-Workflow overview
+## Workflow overview
  
-<img width="524" alt="image" src="https://user-images.githubusercontent.com/125351299/218715023-97519d32-2ea5-4077-b0b3-0b4ffa00df6f.png">
+<img width="800" alt="image" src="https://user-images.githubusercontent.com/125351299/218715023-97519d32-2ea5-4077-b0b3-0b4ffa00df6f.png">
 
 
-Important note:
+### Important note 1:
 
-I recommend using the text editor "Sublime" to open, edit and view different script or codes. It can recognize the different coding languages and will colour the codes to help you distinguish the different elements of the code. Example for the bash language:
+You will need to work in the terminal
 
-<img width="487" alt="image" src="https://user-images.githubusercontent.com/125351299/218717383-c484b70f-44ad-404a-ba35-82aaf58db079.png">
+You will need to install different programs. We will try to make it the easiest as possible by installing everything through Anaconda
+
+This means you will first have to install Anaconda, which will allow you to install almost everything else you need for any tutorial you can find here.
+
+Find the right Anaconda version for your system there (https://docs.anaconda.com/anaconda/install/index.html)
+
+### Important note 2:
+
+I recommend using the text editor "Sublime" to open, edit and view different script or codes. It can recognize the different coding languages and will colour the codes to help you distinguish the different elements of the code. 
+
+You can download it here (choose the proper version for your system) : https://www.sublimetext.com/3
+
+Example of what you will get if you write bash language in Sublime (you save your file to .sh format to make the colours appear) :
+
+<img width="800" alt="image" src="https://user-images.githubusercontent.com/125351299/218717383-c484b70f-44ad-404a-ba35-82aaf58db079.png">
 
  
 
 
-#
 
-1. Reception or download of the reads from the sequencing facility
+## 1. Reception or download of the reads from the sequencing facility
 
 
 Example of file list (gz means they are compressed to save space)
 
- <img width="191" alt="image" src="https://user-images.githubusercontent.com/125351299/218717575-db7bd61c-a77f-451e-aa36-fc09c8dbe54b.png">
+ <img width="400" alt="image" src="https://user-images.githubusercontent.com/125351299/218717575-db7bd61c-a77f-451e-aa36-fc09c8dbe54b.png">
 
 
 Why do we get two files for each sample?
@@ -47,22 +55,21 @@ Why do we get two files for each sample?
  
 
 
-What is inside a FASTQ file?
+What is actually found inside a FASTQ file?
 
-4 lines for each read (can contains millions of reads)
+You have blocks containing 4 lines for each read (can contains millions of blocks)
 
  
-<img width="321" alt="image" src="https://user-images.githubusercontent.com/125351299/218717635-aab09855-bda8-4a62-ae45-c8faca411917.png">
+<img width="600" alt="image" src="https://user-images.githubusercontent.com/125351299/218717635-aab09855-bda8-4a62-ae45-c8faca411917.png">
 
 
-What information is in the identifier? 
+What interesting (or not) information can you find in the identifier line? 
 
 
- <img width="220" alt="image" src="https://user-images.githubusercontent.com/125351299/218717730-47ee4513-e10c-4627-8c5f-54689a309d89.png">
+ <img width="400" alt="image" src="https://user-images.githubusercontent.com/125351299/218717730-47ee4513-e10c-4627-8c5f-54689a309d89.png">
 
-#
 
-2. Checking the integrity or damage of the files with md5sum
+## 2. Checking the integrity or damage of the files with md5sum
 
 There is a slight possibility that the files you have received or downloaded might be damaged or corrupted. If they are, they could create errors during the following steps, or even produce false results without you noticing anything. 
 
@@ -70,17 +77,17 @@ That's why it is important to check file integrity, which is usually done using 
 
 The md5sum corresponds to a unique code that was given to each file when it was first created. If there is the tiniest difference in that file after a download or transfer, the md5sum will be different. If you get two different md5sum for a same file, it means that it is certainly corrupted/damaged.
 
-<img width="524" alt="image" src="https://user-images.githubusercontent.com/125351299/218717916-8486b174-1154-43de-9f55-8d3c844d31a8.png">
+<img width="800" alt="image" src="https://user-images.githubusercontent.com/125351299/218717916-8486b174-1154-43de-9f55-8d3c844d31a8.png">
 
  
 Example command: 
 
+```
+md5sum --check list_with_sums.txt
+```
 
-$ md5sum --check list_with_sums.txt
 
-#
-
-3. Renaming your files for more convenience in the future...
+## 3. Renaming your files for more convenience in the future...
 
 Working with only few samples vs lot of samples...
 
@@ -91,42 +98,52 @@ Loops or no loops...
 
 Example command on a MAC system: 
 
-TESTING WITHOUT CHANGING NAMES FOR REAL!
+FIRST, IT IS SAFER TO TEST YOUR NAME CHANGING COMMAND WITHOUT ACTUALLY CHANGING THE NAMES FOR REAL!
 
+```
 for f in *L1_1.fq.gz do echo mv "$f" "${f/EKDL220000599-1a-*_H23YVDSX3_L1_1*.fq.gz/R1_001.fastq.gz}"; done
 
 
 for f in *L1_2.fq.gz; do echo mv "$f" "${f/EKDL220000599-1a-*_H23YVDSX3_L1_2*.fq.gz/R2_001.fastq.gz}"; done
-
+```
 
 NOW CHANGING NAMES FOR REAL, BE CAREFUL !
 
-
+```
 for f in *L1_1.fq.gz; do mv "$f" "${f/EKDL220000599-1a-*_H23YVDSX3_L1_1*.fq.gz/R1_001.fastq.gz}"; done
 
 
 for f in *L1_2.fq.gz; do mv "$f" "${f/EKDL220000599-1a-*_H23YVDSX3_L1_2*.fq.gz/R2_001.fastq.gz}"; done 
+```
 
-#
-
-4. Read trimming and quality reports
+## 4. Read trimming and quality reports
 
 Principle
 
- <img width="316" alt="image" src="https://user-images.githubusercontent.com/125351299/218718565-ac0497f7-8333-4fe3-b62c-4a69b26dee82.png">
+ <img width="600" alt="image" src="https://user-images.githubusercontent.com/125351299/218718565-ac0497f7-8333-4fe3-b62c-4a69b26dee82.png">
 
 
  ![image](https://user-images.githubusercontent.com/125351299/218718609-35779397-1a97-4210-b2ef-a95940d62a8c.png)
 
 
 
-Programs needed:
+Programs you will need to install:
 
-FASTP
-MULTIQC
+FASTP (https://anaconda.org/bioconda/fastp)
+
+```
+conda install -c bioconda fastp
+```
+
+MULTIQC (https://anaconda.org/bioconda/multiqc)
+
+```
+conda install -c bioconda multiqc
+```
 
 Example commands: 
 
+```
 mkdir CLEANED_READS
 mkdir REPORTS_CLEANED_READS
 
@@ -138,16 +155,13 @@ fastp -i "${prefix}_R1_001.fastq.gz" -I "${prefix}_R2_001.fastq.gz" -o CLEANED_R
 done
 
 multiqc ./REPORTS_CLEANED_READS/ --ignore-symlinks --outdir ./REPORTS_CLEANED_READS --filename MULTIQC_ALL_SAMPLE_REPORT --fullnames --title MULTIQC_ALL_SAMPLE_REPORT
+```
 
 
 
 
 
-
-
-#
-
-5. Filtering out unwanted reads (contaminants or host reads)
+## 5. Filtering out unwanted reads (contaminants or host reads)
 
 Principle :
 
@@ -163,6 +177,7 @@ MULTIQC
 
 Example commands: 
 
+```
 for file in *.fasta
 do 
 bowtie2-build --threads 10 $file $file.INDEX
@@ -173,6 +188,7 @@ mkdir FASTQC_ANALYSIS
 
 for index in *.fasta
 do
+
 #Create directory for future file storage
 mkdir ${index}.INDEX
 
@@ -191,15 +207,14 @@ done
 multiqc ./FASTQC_ANALYSIS/* --ignore-symlinks --outdir ./FASTQC_ANALYSIS/MULTIQC_FILES --filename ALL_REPORTS_MULTIQC --fullnames --title ALL_REPORTS_MULTIQC
 
 multiqc ./"${index}.INDEX"/* --ignore-symlinks --outdir ./FASTQC_ANALYSIS/MULTIQC_MAPPING_INFOS --filename MULTIQC_MAPPING_INFOS --fullnames --title MULTIQC_MAPPING_INFOS
+```
 
- 
-
-6. Subsampling reads (optional, case dependant)
+## 6. Subsampling reads (optional, case dependant)
 
 
 Example commands: 
 
-
+```
 mkdir ./SUBSAMPLED_READS
 
 for prefix in $(ls *.fastq.gz | sed -E 's/_001[.]fastq.gz//' | uniq)
@@ -207,15 +222,15 @@ for prefix in $(ls *.fastq.gz | sed -E 's/_001[.]fastq.gz//' | uniq)
 	echo "Subsampling your file :" "${prefix}_001.fastq.gz"
 	seqtk sample -s 10 "${prefix}_001.fastq.gz" 1000000 > ./SUBSAMPLED_READS/SUB_1MILLION_"${prefix}_001.fastq"
 done
+```
 
-
-
-7. Getting the bacterial abundances
+## 7. Getting the bacterial abundances
 
 
  
 Example commands: 
 
+```
 mkdir METAPHLAN_ANALYSIS/
 
 for prefix in $(ls *.fastq.gz | sed -E 's/_FASTP_R[12]_001[.]fastq.gz//' | uniq)
@@ -228,7 +243,7 @@ done
 
 merge_metaphlan_tables.py METAPHLAN_ANALYSIS/*_metaphlan4_abundance.txt > METAPHLAN_ANALYSIS/MERGED_abundance_table.txt
 
-
+```
 
 
 Additional material

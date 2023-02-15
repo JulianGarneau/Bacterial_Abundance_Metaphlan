@@ -1,17 +1,18 @@
-# Bacterial_Abundance_Metaphlan
-Procedure for determining the bacterial abundances using Metaphlan with shotgun metagenomics reads
+# :hedgehog:  Bacterial_Abundance_Metaphlan  :hedgehog:
 
-## BACTERIAL COMMUNITY ABUNDANCE FROM WHOLE SHOTGUN METAGENOMIC SEQUENCES
 
-### Table of contents
+This is a procedure to obtain bacterial abundances using Metaphlan with shotgun metagenomic reads.
 
-1.	Reception or download of read files
-2.	Checking the integrity of the read files
+
+### Table of contents (main steps of the procedure)
+
+1.	Reception or download of the reads files
+2.	Checking the integrity of the reads files
 3.	Renaming your files for more convenience
-4.	Read filtering, trimming and quality reports
-5.	Filtering out unwanted reads (contaminants or host reads)
-6.	Subsampling reads (optional, case dependant) 
-7.	Getting the bacterial abundances
+4.	Quality control of the reads (Reads trimming and quality reports)
+5.	Taking out unwanted reads (contaminants or host reads)
+6.	Subsampling reads to have the same amount of reads for each sample (usually not recomended, case dependant) 
+7.	Getting the bacterial abundances/profiles for each samples
 
 ## Workflow overview
  
@@ -20,13 +21,21 @@ Procedure for determining the bacterial abundances using Metaphlan with shotgun 
 
 ### Important note 1:
 
-You will need to work in the terminal
+For this tutorial, you will need to work with the terminal (ideally on Mac on Linux system)
 
-You will need to install different programs. We will try to make it the easiest as possible by installing everything through Anaconda
+Also, if you are working on your own computer, you might need to install different programs required for the procedure.
 
-This means you will first have to install Anaconda, which will allow you to install almost everything else you need for any tutorial you can find here.
+We will try to make it as easy as possible by installing all programs through Anaconda.
+
+This means you will first have to install Anaconda (which is somewhat a big program). Then, Anaconda will allow you to install almost everything else you need for any tutorial you can find here.
 
 Find the right Anaconda version for your system there (https://docs.anaconda.com/anaconda/install/index.html)
+
+If you need help to install Anaconda or other software, you can ask me.
+
+I suggest you go through the tutorial and identify the program you need to install. Search for these signs : ⚠️ PROGRAMS TO INSTALL 💻 
+
+The command you will actually need to write in the terminal or adapt for your analyses will be indicated by : ⚠️ TEMPLATE COMMANDS ⌨️
 
 ### Important note 2:
 
@@ -42,7 +51,7 @@ Example of what you will get if you write bash language in Sublime (you save you
 
 
 
-## 1. Reception or download of the reads from the sequencing facility
+### STEP 1) RECEPTION OR DOWNLOAD OF THE READS FILES FROM THE SEQUENCING FACILITY OR COLLEAGUE
 
 
 Example of file list (gz means they are compressed to save space)
@@ -69,7 +78,21 @@ What interesting (or not) information can you find in the identifier line?
  <img width="400" alt="image" src="https://user-images.githubusercontent.com/125351299/218717730-47ee4513-e10c-4627-8c5f-54689a309d89.png">
 
 
-## 2. Checking the integrity or damage of the files with md5sum
+### STEP 2) CHECKING THE INTEGRITY OR DAMAGE OF THE READ FILES USING md5sum
+
+⚠️ PROGRAMS TO INSTALL 💻 
+
+💻 MD5SUM
+
+It should already be installed on Linux and MacOS. You can check if you already have it by typing the following in your terminal:
+
+```
+md5sum --help
+```
+
+If you are being told that you don't have it, we will need to install it using BREW (not discussed here, but you can ask me).
+
+### Short explanation for this step
 
 There is a slight possibility that the files you have received or downloaded might be damaged or corrupted. If they are, they could create errors during the following steps, or even produce false results without you noticing anything. 
 
@@ -80,14 +103,28 @@ The md5sum corresponds to a unique code that was given to each file when it was 
 <img width="800" alt="image" src="https://user-images.githubusercontent.com/125351299/218717916-8486b174-1154-43de-9f55-8d3c844d31a8.png">
 
  
-Example command: 
+ 
+This is what is inside the MD5.txt file. It contains the files in your folder and the verification code.
+
+<img width="833" alt="image" src="https://user-images.githubusercontent.com/125351299/219009018-97e886ce-6a3f-45dd-a6e6-0cceb53cc0da.png">
+
+You have to open your terminal, and go in the folder where your files are (the files you want to verify). In this folder you will find the MD5.txt file  you have to use for the verification.   
+
+⚠️ TEMPLATE COMMANDS ⌨️
 
 ```
-md5sum --check list_with_sums.txt
+md5sum --check MD5.txt
 ```
 
 
-## 3. Renaming your files for more convenience in the future...
+### STEP 3) RENAMING YOUR FILES FOR MORE CONVENIENCE DURING THE WHOLE PROCEDURE
+
+ ⚠️ PROGRAMS TO INSTALL 💻
+ 
+ No special program to install for this step
+ 
+ 
+ 
 
 Working with only few samples vs lot of samples...
 
@@ -96,27 +133,43 @@ Loops or no loops...
 
 
 
-Example command on a MAC system: 
+⚠️ TEMPLATE COMMANDS ⌨️
+
 
 FIRST, IT IS SAFER TO TEST YOUR NAME CHANGING COMMAND WITHOUT ACTUALLY CHANGING THE NAMES FOR REAL!
 
 ```
-for f in *L1_1.fq.gz do echo mv "$f" "${f/EKDL220000599-1a-*_H23YVDSX3_L1_1*.fq.gz/R1_001.fastq.gz}"; done
+for file in *L1_1.fq.gz do echo mv "$file" "${f/EKDL220000599-1a-*_H23YVDSX3_L1_1*.fq.gz/R1_001.fastq.gz}"; done
 
 
-for f in *L1_2.fq.gz; do echo mv "$f" "${f/EKDL220000599-1a-*_H23YVDSX3_L1_2*.fq.gz/R2_001.fastq.gz}"; done
+for file in *L1_2.fq.gz; do echo mv "$file" "${f/EKDL220000599-1a-*_H23YVDSX3_L1_2*.fq.gz/R2_001.fastq.gz}"; done
 ```
 
 NOW CHANGING NAMES FOR REAL, BE CAREFUL !
 
 ```
-for f in *L1_1.fq.gz; do mv "$f" "${f/EKDL220000599-1a-*_H23YVDSX3_L1_1*.fq.gz/R1_001.fastq.gz}"; done
+for file in *L1_1.fq.gz; do mv "$file" "${f/EKDL220000599-1a-*_H23YVDSX3_L1_1*.fq.gz/R1_001.fastq.gz}"; done
 
 
-for f in *L1_2.fq.gz; do mv "$f" "${f/EKDL220000599-1a-*_H23YVDSX3_L1_2*.fq.gz/R2_001.fastq.gz}"; done 
+for file in *L1_2.fq.gz; do mv "$file" "${f/EKDL220000599-1a-*_H23YVDSX3_L1_2*.fq.gz/R2_001.fastq.gz}"; done 
 ```
 
-## 4. Read trimming and quality reports
+### STEP 4) READ TRIMMING AND QUALITY REPORTS
+
+ ⚠️ PROGRAMS TO INSTALL 💻
+ 
+💻 FASTP (https://anaconda.org/bioconda/fastp)
+
+```
+conda install -c bioconda fastp
+```
+
+💻 MULTIQC (https://anaconda.org/bioconda/multiqc)
+
+```
+conda install -c bioconda multiqc
+```
+
 
 Principle
 
@@ -127,21 +180,8 @@ Principle
 
 
 
-Programs you will need to install:
 
-FASTP (https://anaconda.org/bioconda/fastp)
-
-```
-conda install -c bioconda fastp
-```
-
-MULTIQC (https://anaconda.org/bioconda/multiqc)
-
-```
-conda install -c bioconda multiqc
-```
-
-Example commands: 
+⚠️ TEMPLATE COMMANDS ⌨️
 
 ```
 mkdir CLEANED_READS
@@ -161,7 +201,12 @@ multiqc ./REPORTS_CLEANED_READS/ --ignore-symlinks --outdir ./REPORTS_CLEANED_RE
 
 
 
-## 5. Filtering out unwanted reads (contaminants or host reads)
+### STEP 5) FILTERING OUT UNWANTED READS (known contaminants, host reads, etc)
+
+ ⚠️ PROGRAMS TO INSTALL 💻 
+ 
+💻 BOWTIE2
+
 
 Principle :
 
@@ -169,13 +214,7 @@ Principle :
 
 
 
-Programs needed
-
-BOWTIE2
-FASTQC
-MULTIQC
-
-Example commands: 
+⚠️ TEMPLATE COMMANDS ⌨️
 
 ```
 for file in *.fasta
@@ -209,10 +248,15 @@ multiqc ./FASTQC_ANALYSIS/* --ignore-symlinks --outdir ./FASTQC_ANALYSIS/MULTIQC
 multiqc ./"${index}.INDEX"/* --ignore-symlinks --outdir ./FASTQC_ANALYSIS/MULTIQC_MAPPING_INFOS --filename MULTIQC_MAPPING_INFOS --fullnames --title MULTIQC_MAPPING_INFOS
 ```
 
-## 6. Subsampling reads (optional, case dependant)
+### STEP 6)  SUBSAMPLING THE CLEANED READS TO (optional step, dependant on the case)
 
 
-Example commands: 
+ ⚠️ PROGRAMS TO INSTALL 💻
+ 
+💻 SEQTK
+
+
+⚠️ TEMPLATE COMMANDS ⌨️
 
 ```
 mkdir ./SUBSAMPLED_READS
@@ -224,11 +268,16 @@ for prefix in $(ls *.fastq.gz | sed -E 's/_001[.]fastq.gz//' | uniq)
 done
 ```
 
-## 7. Getting the bacterial abundances
+### STEP 7) GETTING THE BACTERIAL ABUNDANCES
+
+ ⚠️ PROGRAMS TO INSTALL 💻
+
+💻 METAPHLAN4
 
 
  
-Example commands: 
+⚠️ TEMPLATE COMMANDS ⌨️
+
 
 ```
 mkdir METAPHLAN_ANALYSIS/

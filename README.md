@@ -19,7 +19,7 @@ This is a procedure to obtain bacterial abundances using Metaphlan with shotgun 
 <img width="800" alt="image" src="https://user-images.githubusercontent.com/125351299/218715023-97519d32-2ea5-4077-b0b3-0b4ffa00df6f.png">
 
 
-### Important note 1:
+### Important note 1
 
 For this tutorial, you will need to work with the terminal (ideally on Mac on Linux system)
 
@@ -37,7 +37,7 @@ I suggest you go through the tutorial and identify the program you need to insta
 
 The command you will actually need to write in the terminal or adapt for your analyses will be indicated by : ⚠️ TEMPLATE COMMANDS ⌨️
 
-### Important note 2:
+### Important note 2
 
 I recommend using the text editor "Sublime" to open, edit and view different script or codes. It can recognize the different coding languages and will colour the codes to help you distinguish the different elements of the code. 
 
@@ -56,7 +56,9 @@ Example of what you will get if you write bash language in Sublime (you save you
 
 Example of file list (gz means they are compressed to save space)
 
- <img width="400" alt="image" src="https://user-images.githubusercontent.com/125351299/218717575-db7bd61c-a77f-451e-aa36-fc09c8dbe54b.png">
+
+<img width="600" alt="image" src="https://user-images.githubusercontent.com/125351299/219363130-0fd9acc4-ef87-467d-9ca0-83f2f51c14b2.png">
+
 
 
 Why do we get two files for each sample?
@@ -82,7 +84,7 @@ What interesting (or not) information can you find in the identifier line?
 
 ⚠️ PROGRAMS TO INSTALL 💻 
 
-💻 MD5SUM
+:small_blue_diamond: MD5SUM
 
 It should already be installed on Linux and MacOS. You can check if you already have it by typing the following in your terminal:
 
@@ -104,7 +106,7 @@ The md5sum corresponds to a unique code that was given to each file when it was 
 
  
  
-This is what is inside the MD5.txt file. It contains the files in your folder and the verification code.
+This is what is inside the MD5.txt file. It contains the files in your folder and the verification codes.
 
 <img width="833" alt="image" src="https://user-images.githubusercontent.com/125351299/219009018-97e886ce-6a3f-45dd-a6e6-0cceb53cc0da.png">
 
@@ -121,9 +123,16 @@ md5sum --check MD5.txt
 
  ⚠️ PROGRAMS TO INSTALL 💻
  
+ 
  No special program to install for this step
  
  
+ 
+ 
+ 
+ 
+ <img width="900" alt="image" src="https://user-images.githubusercontent.com/125351299/219362889-2814ca64-895c-4c97-a556-7b9ebf8fb8bc.png">
+
  
 
 Working with only few samples vs lot of samples...
@@ -158,13 +167,13 @@ for file in *L1_2.fq.gz; do mv "$file" "${f/EKDL220000599-1a-*_H23YVDSX3_L1_2*.f
 
  ⚠️ PROGRAMS TO INSTALL 💻
  
-💻 FASTP (https://anaconda.org/bioconda/fastp)
+:small_blue_diamond: FASTP (https://anaconda.org/bioconda/fastp)
 
 ```
 conda install -c bioconda fastp
 ```
 
-💻 MULTIQC (https://anaconda.org/bioconda/multiqc)
+:small_blue_diamond: MULTIQC (https://anaconda.org/bioconda/multiqc)
 
 ```
 conda install -c bioconda multiqc
@@ -205,7 +214,7 @@ multiqc ./REPORTS_CLEANED_READS/ --ignore-symlinks --outdir ./REPORTS_CLEANED_RE
 
  ⚠️ PROGRAMS TO INSTALL 💻 
  
-💻 BOWTIE2
+:small_blue_diamond: BOWTIE2
 
 
 Principle :
@@ -253,7 +262,7 @@ multiqc ./"${index}.INDEX"/* --ignore-symlinks --outdir ./FASTQC_ANALYSIS/MULTIQ
 
  ⚠️ PROGRAMS TO INSTALL 💻
  
-💻 SEQTK
+:small_blue_diamond: SEQTK
 
 
 ⚠️ TEMPLATE COMMANDS ⌨️
@@ -272,7 +281,7 @@ done
 
  ⚠️ PROGRAMS TO INSTALL 💻
 
-💻 METAPHLAN4
+:small_blue_diamond: METAPHLAN4
 
 
  

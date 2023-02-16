@@ -53,17 +53,20 @@ Example of what you will get if you write bash language in Sublime (you save you
 
 ### STEP 1. RECEPTION OR DOWNLOAD OF THE READS FILES FROM THE SEQUENCING FACILITY OR COLLEAGUE
 
+<br/>
+<br/>
 
 Example of file list (gz means they are compressed to save space)
 
+<br/>
 
 <img width="600" alt="image" src="https://user-images.githubusercontent.com/125351299/219363130-0fd9acc4-ef87-467d-9ca0-83f2f51c14b2.png">
 
-
+<br/>
 
 Why do we get two files for each sample?
 
- 
+When we do Illumina sequencing, we always have the choice to to single-end or paired-end sequencing. Single-end will generate only one reads file (R1), and paired-end will generate two reads files (R1 and R2)
 
 
 What is actually found inside a FASTQ file?

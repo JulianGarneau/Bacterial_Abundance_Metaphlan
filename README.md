@@ -83,6 +83,12 @@ What interesting (or not) information can you find in the identifier line?
  <img width="400" alt="image" src="https://user-images.githubusercontent.com/125351299/218717730-47ee4513-e10c-4627-8c5f-54689a309d89.png">
 
 
+### Now we can download the toy dataset (They are real data from the lab!)
+
+
+https://github.com/JulianGarneau/Bacterial_Abundance_Metaphlan/blob/0b6656c3622950d673a32aa9f2dede1be8a724df/TUTORIAL_BACTERIAL_ABUNDANCE_METAGENOMICS_SIC.zip
+
+
 ### STEP 2. CHECKING THE INTEGRITY OR DAMAGE OF THE READ FILES USING md5sum
 
 ⚠️ PROGRAMS TO INSTALL 💻 

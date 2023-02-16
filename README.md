@@ -51,7 +51,7 @@ Example of what you will get if you write bash language in Sublime (you save you
 
 
 
-### STEP 1) RECEPTION OR DOWNLOAD OF THE READS FILES FROM THE SEQUENCING FACILITY OR COLLEAGUE
+### STEP 1. RECEPTION OR DOWNLOAD OF THE READS FILES FROM THE SEQUENCING FACILITY OR COLLEAGUE
 
 
 Example of file list (gz means they are compressed to save space)
@@ -80,7 +80,7 @@ What interesting (or not) information can you find in the identifier line?
  <img width="400" alt="image" src="https://user-images.githubusercontent.com/125351299/218717730-47ee4513-e10c-4627-8c5f-54689a309d89.png">
 
 
-### STEP 2) CHECKING THE INTEGRITY OR DAMAGE OF THE READ FILES USING md5sum
+### STEP 2. CHECKING THE INTEGRITY OR DAMAGE OF THE READ FILES USING md5sum
 
 ⚠️ PROGRAMS TO INSTALL 💻 
 
@@ -119,7 +119,7 @@ md5sum --check MD5.txt
 ```
 
 
-### STEP 3) RENAMING YOUR FILES FOR MORE CONVENIENCE DURING THE WHOLE PROCEDURE
+### STEP 3. RENAMING YOUR FILES FOR MORE CONVENIENCE DURING THE WHOLE PROCEDURE
 
  ⚠️ PROGRAMS TO INSTALL 💻
  
@@ -163,7 +163,7 @@ for file in *L1_1.fq.gz; do mv "$file" "${f/EKDL220000599-1a-*_H23YVDSX3_L1_1*.f
 for file in *L1_2.fq.gz; do mv "$file" "${f/EKDL220000599-1a-*_H23YVDSX3_L1_2*.fq.gz/R2_001.fastq.gz}"; done 
 ```
 
-### STEP 4) READ TRIMMING AND QUALITY REPORTS
+### STEP 4. READ TRIMMING AND QUALITY REPORTS
 
  ⚠️ PROGRAMS TO INSTALL 💻
  
@@ -210,7 +210,7 @@ multiqc ./REPORTS_CLEANED_READS/ --ignore-symlinks --outdir ./REPORTS_CLEANED_RE
 
 
 
-### STEP 5) FILTERING OUT UNWANTED READS (known contaminants, host reads, etc)
+### STEP 5. FILTERING OUT UNWANTED READS (known contaminants, host reads, etc)
 
  ⚠️ PROGRAMS TO INSTALL 💻 
  
@@ -257,7 +257,7 @@ multiqc ./FASTQC_ANALYSIS/* --ignore-symlinks --outdir ./FASTQC_ANALYSIS/MULTIQC
 multiqc ./"${index}.INDEX"/* --ignore-symlinks --outdir ./FASTQC_ANALYSIS/MULTIQC_MAPPING_INFOS --filename MULTIQC_MAPPING_INFOS --fullnames --title MULTIQC_MAPPING_INFOS
 ```
 
-### STEP 6)  SUBSAMPLING THE CLEANED READS TO (optional step, dependant on the case)
+### STEP 6.  SUBSAMPLING THE CLEANED READS TO (optional step, dependant on the case)
 
 
  ⚠️ PROGRAMS TO INSTALL 💻
@@ -277,7 +277,7 @@ for prefix in $(ls *.fastq.gz | sed -E 's/_001[.]fastq.gz//' | uniq)
 done
 ```
 
-### STEP 7) GETTING THE BACTERIAL ABUNDANCES
+### STEP 7. GETTING THE BACTERIAL ABUNDANCES
 
  ⚠️ PROGRAMS TO INSTALL 💻
 

@@ -48,23 +48,66 @@ Example of what you will get if you write bash language in Sublime (you save you
 <img width="800" alt="image" src="https://user-images.githubusercontent.com/125351299/218717383-c484b70f-44ad-404a-ba35-82aaf58db079.png">
 
  
-
+<br/>
 
 
 ### STEP 1. RECEPTION OR DOWNLOAD OF THE READS FILES FROM THE SEQUENCING FACILITY OR COLLEAGUE
 
 <br/>
-<br/>
 
-Example of file list (gz means they are compressed to save space)
-
-<br/>
-
-<img width="600" alt="image" src="https://user-images.githubusercontent.com/125351299/219363130-0fd9acc4-ef87-467d-9ca0-83f2f51c14b2.png">
+### First of all, let's create a confortable place (folder) on our computer where we will do the work and put everything we need for this tutorial:
 
 <br/>
 
-Why do we get two files for each sample?
+⚠️ TEMPLATE COMMANDS ⌨️
+
+Move to your home directory with the "cd" command
+```
+cd
+```
+Then create the directory in which we will work using the "mkdir" command
+
+```
+mkdir META_TUTO
+```
+Then verify that you have really created the directory with the "ls" command
+
+```
+ls
+```
+
+Is everything okay? Do you see the META_TUTO directory now?
+
+If yes, you can go in it, again using the "cd" command
+
+```
+cd META_TUTO
+```
+
+
+### Let's begin by downloading the toy dataset (They are real data from the lab!). It is a compressed file (.zip) containing metagenomics reads from 3 different samples (3 Stool-derived in vitro communities).
+
+
+Choose carefully where you download the files. Put it in the META_TUTO directory you have just created!
+
+<br/>
+
+[Click here to download the toy read dataset](TUTORIAL_BACTERIAL_ABUNDANCE_METAGENOMICS_SIC.zip)
+
+<br/>
+
+Once you have downloaded the files, you can decompress them (unzip them).
+
+<br/>
+
+If you also open your file browser, you should see this after decompression of files
+
+<br/>
+
+<img width="600" alt="image" src="https://user-images.githubusercontent.com/125351299/219516955-4c866de5-5391-4608-bbcf-0d2d59ff6fdb.png">
+
+<br/>
+
 
 When we do Illumina sequencing, we always have the choice to to single-end or paired-end sequencing. Single-end will generate only one reads file (R1), and paired-end will generate two reads files (R1 and R2)
 
@@ -82,11 +125,7 @@ What interesting (or not) information can you find in the identifier line?
 
  <img width="400" alt="image" src="https://user-images.githubusercontent.com/125351299/218717730-47ee4513-e10c-4627-8c5f-54689a309d89.png">
 
-
-### Now we can download the toy dataset (They are real data from the lab!)
-
-
-https://github.com/JulianGarneau/Bacterial_Abundance_Metaphlan/blob/0b6656c3622950d673a32aa9f2dede1be8a724df/TUTORIAL_BACTERIAL_ABUNDANCE_METAGENOMICS_SIC.zip
+<br/>
 
 
 ### STEP 2. CHECKING THE INTEGRITY OR DAMAGE OF THE READ FILES USING md5sum
@@ -117,9 +156,10 @@ The md5sum corresponds to a unique code that was given to each file when it was 
  
 This is what is inside the MD5.txt file. It contains the files in your folder and the verification codes.
 
-<img width="833" alt="image" src="https://user-images.githubusercontent.com/125351299/219009018-97e886ce-6a3f-45dd-a6e6-0cceb53cc0da.png">
+![image](https://user-images.githubusercontent.com/125351299/219517451-62b2e2c3-bceb-45a0-a012-2e7368bbf951.png)
 
-You have to open your terminal, and go in the folder where your files are (the files you want to verify). In this folder you will find the MD5.txt file  you have to use for the verification.   
+
+Using the terminal, go in the directory where your files are (the files you want to verify). In this folder you will find the MD5.txt file you have to use for the verification.   
 
 ⚠️ TEMPLATE COMMANDS ⌨️
 
@@ -228,7 +268,7 @@ multiqc ./REPORTS_CLEANED_READS/ --ignore-symlinks --outdir ./REPORTS_CLEANED_RE
 
 Principle :
 
- <img width="360" alt="image" src="https://user-images.githubusercontent.com/125351299/218718771-821e432e-0e13-400d-85c4-e40949c359bf.png">
+ <img width="800" alt="image" src="https://user-images.githubusercontent.com/125351299/218718771-821e432e-0e13-400d-85c4-e40949c359bf.png">
 
 
 

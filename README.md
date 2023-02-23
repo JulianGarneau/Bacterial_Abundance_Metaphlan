@@ -326,6 +326,15 @@ for prefix in $(ls *.fastq.gz | sed -E 's/_001[.]fastq.gz//' | uniq)
 done
 ```
 
+### General statistics using MULTIQC on FASTQC reports
+
+![image](https://user-images.githubusercontent.com/125351299/220830372-3a399547-65bb-4c19-8b73-6e8618a7a54e.png)
+
+### General statistics using MULTIQC on BOWTIE2 log files (Mapping statistics on contaminant genome reference)
+
+![image](https://user-images.githubusercontent.com/125351299/220830710-c4d14819-bfe2-42ff-84f9-3a5e7a9e8193.png)
+
+
 ### STEP 7. GETTING THE BACTERIAL ABUNDANCES
 
  ⚠️ PROGRAMS TO INSTALL 💻

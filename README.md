@@ -255,8 +255,10 @@ done
 multiqc ./REPORTS_CLEANED_READS/ --ignore-symlinks --outdir ./REPORTS_CLEANED_READS --filename MULTIQC_ALL_SAMPLE_REPORT --fullnames --title MULTIQC_ALL_SAMPLE_REPORT
 ```
 
+### General statistics using MULTIQC on FASTQC reports (considers both reads before and after cleaning)
 
 
+![image](https://user-images.githubusercontent.com/125351299/220832406-19d98d50-b589-4560-bfa4-66c4066241c7.png)
 
 
 ### STEP 5. FILTERING OUT UNWANTED READS (known contaminants, host reads, etc)
@@ -275,6 +277,12 @@ Principle :
 ⚠️ TEMPLATE COMMANDS ⌨️
 
 ```
+
+source ~/anaconda3/etc/profile.d/conda.sh
+conda activate bowtie2
+
+#ASSUMES ZIPPED FILES
+
 for file in *.fasta
 do 
 bowtie2-build --threads 10 $file $file.INDEX
@@ -285,7 +293,6 @@ mkdir FASTQC_ANALYSIS
 
 for index in *.fasta
 do
-
 #Create directory for future file storage
 mkdir ${index}.INDEX
 
@@ -293,18 +300,33 @@ mkdir ${index}.INDEX
 	for prefix in $(ls *.fastq.gz | sed -E 's/_R[12]_001[.]fastq.gz//' | uniq)
 	do
 	echo "performing alignment on files :" "${prefix}_R1_001.fastq.gz" "&" "${prefix}_R2_001.fastq.gz" "ON INDEX :" "${index}"
-	bowtie2  --very-sensitive-local --un-conc-gz ./"${index}.INDEX/HOST_EXTRACTED_${prefix}_R%_001.fastq.gz" -p 10 -x $index.INDEX -1 "${prefix}_R1_001.fastq.gz" -2 "${prefix}_R2_001.fastq.gz" -S ./"${index}.INDEX"/"${prefix}_${index}.sam" 2>./"${index}.INDEX"/"${prefix}_${index}_BOWTIE2.log"
+	bowtie2  --very-fast --un-conc-gz ./"${index}.INDEX/HOST_EXTRACTED_${prefix}_R%_001.fastq.gz" -p 10 -x $index.INDEX -1 "${prefix}_R1_001.fastq.gz" -2 "${prefix}_R2_001.fastq.gz" -S ./"${index}.INDEX"/"${prefix}_${index}.sam" 2>./"${index}.INDEX"/"${prefix}_${index}_BOWTIE2.log"
 	rm ./"${index}.INDEX"/"${prefix}_${index}.sam"
 	done
-fastqc *.fastq.gz -o ./"${index}.INDEX"/FASTQC_ANALYSIS
-fastqc ./"${index}.INDEX"/*.fastq.gz -o ./FASTQC_ANALYSIS
+fastqc *.fastq.gz -o ./FASTQC_ANALYSIS -t 10
+fastqc ./"${index}.INDEX"/*.fastq.gz -o ./FASTQC_ANALYSIS -t 10
 done
+
+conda deactivate
 
 
 multiqc ./FASTQC_ANALYSIS/* --ignore-symlinks --outdir ./FASTQC_ANALYSIS/MULTIQC_FILES --filename ALL_REPORTS_MULTIQC --fullnames --title ALL_REPORTS_MULTIQC
 
 multiqc ./"${index}.INDEX"/* --ignore-symlinks --outdir ./FASTQC_ANALYSIS/MULTIQC_MAPPING_INFOS --filename MULTIQC_MAPPING_INFOS --fullnames --title MULTIQC_MAPPING_INFOS
+
 ```
+
+
+### General statistics using MULTIQC on FASTQC reports
+
+![image](https://user-images.githubusercontent.com/125351299/220830372-3a399547-65bb-4c19-8b73-6e8618a7a54e.png)
+
+### General statistics using MULTIQC on BOWTIE2 log files (Mapping statistics on contaminant genome reference)
+
+![image](https://user-images.githubusercontent.com/125351299/220830710-c4d14819-bfe2-42ff-84f9-3a5e7a9e8193.png)
+
+
+
 
 ### STEP 6.  SUBSAMPLING THE CLEANED READS TO (optional step, dependant on the case)
 
@@ -325,15 +347,6 @@ for prefix in $(ls *.fastq.gz | sed -E 's/_001[.]fastq.gz//' | uniq)
 	seqtk sample -s 10 "${prefix}_001.fastq.gz" 1000000 > ./SUBSAMPLED_READS/SUB_1MILLION_"${prefix}_001.fastq"
 done
 ```
-
-### General statistics using MULTIQC on FASTQC reports
-
-![image](https://user-images.githubusercontent.com/125351299/220830372-3a399547-65bb-4c19-8b73-6e8618a7a54e.png)
-
-### General statistics using MULTIQC on BOWTIE2 log files (Mapping statistics on contaminant genome reference)
-
-![image](https://user-images.githubusercontent.com/125351299/220830710-c4d14819-bfe2-42ff-84f9-3a5e7a9e8193.png)
-
 
 ### STEP 7. GETTING THE BACTERIAL ABUNDANCES
 
